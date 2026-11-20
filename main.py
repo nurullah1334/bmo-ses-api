@@ -1,6 +1,7 @@
 from fastapi import FastAPI
 from fastapi.responses import Response
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.staticfiles import StaticFiles
 import edge_tts
 
 app = FastAPI()
@@ -29,3 +30,5 @@ async def generate_bmo_voice(text: str = "Merhaba Bimo!"):
         if chunk["type"] == "audio":
             audio_bytes += chunk["data"]
     return Response(content=audio_bytes, media_type="audio/mpeg")
+
+app.mount("/music", StaticFiles(directory="."), name="music")
